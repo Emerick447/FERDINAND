@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Mini Minecraft 2 blocs</title>
+
+<style>
+html,body{
+margin:0;
+overflow:hidden;
+font-family:Arial;
+background:#87CEEB;
+}
+
+canvas{
+display:block;
+cursor:crosshair;
+}
+
+#ui{
+position:fixed;
+top:10px;
+left:10px;
+background:rgba(0,0,0,0.5);
+color:white;
+padding:10px;
+border-radius:8px;
+font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="c"></canvas>
+
+<div id="ui">
+Déplacement : ZQSD ou flèches<br>
+1 = herbe | 2 = pierre<br>
+Clic gauche : casser<br>
+Clic droit : poser bloc sélectionné
+</div>
+
+<script>
+
+const canvas=document.getElementById("c");
+const ctx=canvas.getContext("2d");
+
+function resize(){
+canvas.width=innerWidth;
+canvas.height=innerHeight;
+}
+addEventListener("resize",resize);
+resize();
+
+const size=32;
+const W=160;
+const H=40;
+
+// 0 = air
+// 1 = herbe
+// 2 = pierre
+const world=[];
+
+for(let y=0;y<H;y++){
+world[y]=[];
+for(let x=0;x<W;x++){
+
+if(y>26) world[y][x]=2;
+else if(y>23) world[y][x]=1;
+else world[y][x]=0;
+
+}
+}
+
+// couleurs
+const colors={
+1:"#2ecc71",
+2:"#7f8c8d"
+};
+
+// joueur
+const player={
+x:200,
+y:200,
+vx:0,
+vy:0,
+w:24,
+h:46,
+ground:false
+};
+
+const keys={};
+
+// ✔ bloc sélectionné (par défaut herbe)
+let selectedBlock = 1;
+
+// clavier
+onkeydown=e=>{
+
+keys[e.key.toLowerCase()]=true;
+
+// ✔ sélection blocs
+if(e.key==="1") selectedBlock=1;
+if(e.key==="2") selectedBlock=2;
+
+};
+
+onkeyup=e=>{
+keys[e.key.toLowerCase()]=false;
+};
+
+canvas.oncontextmenu=e=>e.preventDefault();
+
+// clic souris
+canvas.onmousedown=e=>{
+
+const camx=player.x-canvas.width/2;
+const camy=player.y-canvas.height/2;
+
+const tx=Math.floor((e.clientX+camx)/size);
+const ty=Math.floor((e.clientY+camy)/size);
+
+if(tx<0||ty<0||tx>=W||ty>=H)return;
+
+if(e.button===0){
+world[ty][tx]=0; // casser
+}else{
+world[ty][tx]=selectedBlock; // poser bloc sélectionné
+}
+
+};
+
+// collision
+function solid(x,y){
+const tx=Math.floor(x/size);
+const ty=Math.floor(y/size);
+if(tx<0||ty<0||tx>=W||ty>=H)return true;
+return world[ty][tx]!=0;
+}
+
+// update
+function update(){
+
+player.vx=0;
+
+if(keys["q"]||keys["a"]||keys["arrowleft"]) player.vx=-4;
+if(keys["d"]||keys["arrowright"]) player.vx=4;
+
+if((keys["z"]||keys["w"]||keys["arrowup"]) && player.ground){
+player.vy=-10;
+player.ground=false;
+}
+
+player.vy+=0.5;
+
+// X
+player.x+=player.vx;
+
+if(
+solid(player.x,player.y)||
+solid(player.x+player.w,player.y)||
+solid(player.x,player.y+player.h)||
+solid(player.x+player.w,player.y+player.h)
+){
+player.x-=player.vx;
+}
+
+// Y
+player.y+=player.vy;
+
+if(player.vy>0){
+if(
+solid(player.x,player.y+player.h)||
+solid(player.x+player.w,player.y+player.h)
+){
+player.y=Math.floor((player.y+player.h)/size)*size-player.h-1;
+player.vy=0;
+player.ground=true;
+}
+}
+
+if(player.vy<0){
+if(
+solid(player.x,player.y)||
+solid(player.x+player.w,player.y)
+){
+player.vy=0;
+}
+}
+
+draw();
+requestAnimationFrame(update);
+}
+
+// draw
+function draw(){
+
+ctx.fillStyle="#87CEEB";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+const camx=player.x-canvas.width/2;
+const camy=player.y-canvas.height/2;
+
+for(let y=0;y<H;y++){
+for(let x=0;x<W;x++){
+
+const b=world[y][x];
+if(!b) continue;
+
+ctx.fillStyle=colors[b];
+ctx.fillRect(
+x*size-camx,
+y*size-camy,
+size,
+size
+);
+
+ctx.strokeStyle="rgba(0,0,0,0.25)";
+ctx.strokeRect(
+x*size-camx,
+y*size-camy,
+size,
+size
+);
+
+}
+}
+
+// joueur
+ctx.fillStyle="#e74c3c";
+ctx.fillRect(
+player.x-camx,
+player.y-camy,
+player.w,
+player.h
+);
+
+}
+
+update();
+
+</script>
+
+</body>
+</html>
