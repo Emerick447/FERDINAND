@@ -1,590 +1,62 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Ferdinand 13 - Joyeux Anniversaire</title>
-
-<style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-html,body{
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    font-family:Arial,sans-serif;
-    background:#000;
-}
-
-body{
-
-background:
-linear-gradient(#6dc8ff 0%,#9fe6ff 45%,#74b94d 46%,#5d9b3d 100%);
-
-}
-
-/* Soleil */
-
-#sun{
-
-position:absolute;
-width:140px;
-height:140px;
-border-radius:50%;
-background:#ffe96a;
-top:60px;
-right:90px;
-box-shadow:0 0 80px #fff176;
-
-}
-
-/* Nuages */
-
-.cloud{
-
-position:absolute;
-background:white;
-border-radius:40px;
-height:60px;
-width:180px;
-opacity:.95;
-
-animation:cloudMove linear infinite;
-
-}
-
-.cloud:before{
-
-content:"";
-position:absolute;
-width:70px;
-height:70px;
-left:20px;
-top:-25px;
-background:white;
-border-radius:50%;
-
-}
-
-.cloud:after{
-
-content:"";
-position:absolute;
-width:90px;
-height:90px;
-right:25px;
-top:-40px;
-background:white;
-border-radius:50%;
-
-}
-
-@keyframes cloudMove{
-
-from{
-transform:translateX(-250px);
-}
-
-to{
-transform:translateX(calc(100vw + 300px));
-}
-
-}
-
-/* Sol */
-
-#ground{
-
-position:absolute;
-bottom:0;
-left:0;
-width:100%;
-height:180px;
-background:
-repeating-linear-gradient(
-90deg,
-#5aa03a 0px,
-#5aa03a 50px,
-#4b8f2d 50px,
-#4b8f2d 100px
-);
-
-}
-
-/* Menu */
-
-#menu{
-
-position:absolute;
-left:50%;
-top:50%;
-transform:translate(-50%,-50%);
-text-align:center;
-color:white;
-text-shadow:3px 3px black;
-
-}
-
-
-
-#subtitle{
-
-margin-top:10px;
-font-size:28px;
-color:#fff59d;
-
-}
-
-#splash{
-
-margin-top:18px;
-font-size:24px;
-color:#ffeb3b;
-transform:rotate(-12deg);
-
-animation:pulse 1s infinite;
-
-}
-
-@keyframes pulse{
-
-50%{
-transform:rotate(-12deg) scale(1.1);
-}
-
-}
-
-button{
-
-margin-top:25px;
-
-width:360px;
-
-padding:18px;
-
-font-size:22px;
-
-font-weight:bold;
-
-cursor:pointer;
-
-border:none;
-
-border-radius:10px;
-
-background:#43a047;
-
-color:white;
-
-box-shadow:0 6px #1b5e20;
-
-transition:.15s;
-
-}
-
-button:hover{
-
-transform:translateY(-2px);
-
-}
-
-button:active{
-
-transform:translateY(5px);
-
-box-shadow:0 1px #1b5e20;
-
-}
-
-/* Chargement */
-
-#loading{
-
-display:none;
-
-position:absolute;
-
-inset:0;
-
-background:rgba(0,0,0,.92);
-
-justify-content:center;
-
-align-items:center;
-
-flex-direction:column;
-
-color:white;
-
-}
-
-#bar{
-
-width:65%;
-
-height:36px;
-
-border:3px solid white;
-
-margin-top:25px;
-
-}
-
-#fill{
-
-width:0%;
-
-height:100%;
-
-background:linear-gradient(90deg,#00e676,#76ff03);
-
-}
-
-#percent{
-
-margin-top:15px;
-
-font-size:24px;
-
-}
-
-canvas{
-
-position:absolute;
-
-inset:0;
-
-pointer-events:none;
-
-}
-
-footer{
-
-position:absolute;
-
-bottom:10px;
-
-width:100%;
-
-text-align:center;
-
-font-size:18px;
-
-color:white;
-
-text-shadow:2px 2px black;
-
-}
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ferdinand 13</title>
+
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div id="sun"></div>
+<div id="sky">
 
-<div class="cloud" style="top:80px;animation-duration:45s;"></div>
-<div class="cloud" style="top:180px;animation-duration:60s;animation-delay:-20s;"></div>
-<div class="cloud" style="top:280px;animation-duration:55s;animation-delay:-35s;"></div>
+    <div id="sun"></div>
+
+    <div class="cloud c1"></div>
+    <div class="cloud c2"></div>
+    <div class="cloud c3"></div>
+
+</div>
 
 <div id="ground"></div>
 
 <div id="menu">
 
-<img src="https://emerick447.github.io/IMAGES/IMG_0217.png" alt="13 ans de Ferdinand">
+    <img
+        id="logo"
+        src="https://emerick447.github.io/IMAGES/IMG_0217.png"
+        alt="13 ans de Ferdinand">
 
-<div id="subtitle">
+    <h2>🎉 Joyeux anniversaire !</h2>
 
-🎉 Joyeux anniversaire !
+    <div id="splash">
+        Niveau 13 débloqué !
+    </div>
 
-</div>
-
-<div id="splash">
-
-"Niveau 13 débloqué !"
-
-</div>
-
-<button onclick="startGame()">
-
-🎮 Rejoindre le monde de Ferdinand
-
-</button>
+    <button id="playButton">
+        🎮 Jouer
+    </button>
 
 </div>
 
 <div id="loading">
 
-<h1>Connexion au serveur...</h1>
+    <h1>Connexion...</h1>
 
-<div id="bar">
+    <div id="bar">
+        <div id="fill"></div>
+    </div>
 
-<div id="fill"></div>
-
-</div>
-
-<div id="percent">
-
-0%
-
-</div>
+    <div id="percent">
+        0%
+    </div>
 
 </div>
 
 <canvas id="fx"></canvas>
 
-<footer>
-
-Créé spécialement pour les 13 ans de Ferdinand ❤️
-
-</footer>
-
-<script>
-
-const fill=document.getElementById("fill");
-const percent=document.getElementById("percent");
-const loading=document.getElementById("loading");
-const menu=document.getElementById("menu");
-
-const messages=[
-"Connexion...",
-"Authentification...",
-"Chargement des ressources...",
-"Préparation du monde...",
-"Génération des arbres...",
-"Création des animaux...",
-"Bienvenue Ferdinand !"
-];
-
-function startGame(){
-
-menu.style.display="none";
-loading.style.display="flex";
-
-let p=0;
-const timer = setInterval(() => {
-
-    p++;
-
-    fill.style.width = p + "%";
-
-    const step = Math.min(
-        messages.length - 1,
-        Math.floor(p / (100 / messages.length))
-    );
-
-    percent.textContent = messages[step] + "  " + p + "%";
-
-    if (p >= 100) {
-
-        clearInterval(timer);
-
-        launchFireworks();
-
-        setTimeout(() => {
-
-            location.href = "game.html";
-
-        }, 3500);
-
-    }
-
-}, 40);
-
-}
-
-// ---------- Feux d'artifice ----------
-
-const canvas = document.getElementById("fx");
-const ctx = canvas.getContext("2d");
-
-function resize(){
-
-    canvas.width = innerWidth;
-    canvas.height = innerHeight;
-
-}
-
-resize();
-
-window.addEventListener("resize", resize);
-
-let particles = [];
-
-function randomColor(){
-
-    const colors = [
-        "#ff5252",
-        "#ffd740",
-        "#69f0ae",
-        "#40c4ff",
-        "#e040fb",
-        "#ffffff"
-    ];
-
-    return colors[Math.floor(Math.random()*colors.length)];
-
-}
-
-function launchFireworks(){
-
-    setInterval(()=>{
-
-        const cx = Math.random()*canvas.width;
-        const cy = Math.random()*canvas.height*0.6;
-
-        for(let i=0;i<120;i++){
-
-            const a = Math.random()*Math.PI*2;
-            const s = Math.random()*6+2;
-
-            particles.push({
-
-                x:cx,
-                y:cy,
-
-                vx:Math.cos(a)*s,
-                vy:Math.sin(a)*s,
-
-                life:100,
-
-                color:randomColor()
-
-            });
-
-        }
-
-    },700);
-
-}
-
-function animate(){
-
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-
-    for(let i=particles.length-1;i>=0;i--){
-
-        const p=particles[i];
-
-        p.x+=p.vx;
-        p.y+=p.vy;
-
-        p.vy+=0.05;
-
-        p.life--;
-
-        ctx.globalAlpha=p.life/100;
-
-        ctx.fillStyle=p.color;
-
-        ctx.beginPath();
-        ctx.arc(p.x,p.y,3,0,Math.PI*2);
-        ctx.fill();
-
-        if(p.life<=0){
-
-            particles.splice(i,1);
-
-        }
-
-    }
-
-    ctx.globalAlpha=1;
-
-    requestAnimationFrame(animate);
-
-}
-
-animate();
-
-// ---------- Splash Minecraft ----------
-
-const splashes = [
-
-"Bon anniversaire !",
-"Niveau 13 débloqué !",
-"Powered by blocs !",
-"100% Cubique !",
-"Attention aux Creepers !",
-"Mode Survie !",
-"Minecraft Forever !",
-"Construis tes rêves !"
-
-];
-
-document.getElementById("splash").textContent =
-splashes[Math.floor(Math.random()*splashes.length)];
-// ---------- Animation du soleil ----------
-
-const sun = document.getElementById("sun");
-
-let angle = 0;
-
-setInterval(() => {
-
-    angle += 0.002;
-
-    sun.style.transform =
-        "translateY(" + (Math.sin(angle) * 10) + "px)";
-
-}, 16);
-
-// ---------- Animation du logo ----------
-
-const logo = document.getElementById("logo");
-
-setInterval(() => {
-
-    logo.style.transform =
-        "scale(" + (1 + Math.sin(Date.now() / 500) * 0.03) + ")";
-
-}, 16);
-
-// ---------- Étoiles pendant le chargement ----------
-
-function createStar(){
-
-    const star = document.createElement("div");
-
-    star.style.position = "absolute";
-    star.style.width = "4px";
-    star.style.height = "4px";
-    star.style.background = "white";
-    star.style.borderRadius = "50%";
-
-    star.style.left = Math.random() * innerWidth + "px";
-    star.style.top = Math.random() * innerHeight + "px";
-
-    star.style.opacity = Math.random();
-
-    document.body.appendChild(star);
-
-    setTimeout(() => {
-
-        star.remove();
-
-    }, 5000);
-
-}
-
-setInterval(createStar, 250);
-
-// ---------- Message console ----------
-
-console.log("%c🎉 Joyeux anniversaire Ferdinand !",
-"color:lime;font-size:24px;font-weight:bold;");
-
-console.log("%cNiveau 13 débloqué !",
-"color:gold;font-size:18px;");
-
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
